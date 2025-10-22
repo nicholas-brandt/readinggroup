@@ -1,0 +1,12 @@
+[
+    {
+        "presenter": "Nicholas Brandt",
+        "presenter_mail": "nicholas.brandt@inf.ethz.ch",
+        "title": "Lower Bounds for Levin–Kolmogorov Complexity",
+        "abstract": "The hardness of Kolmogorov complexity is intricately connected to the existence of one-way functions and derandomization. An important and elegant notion is Levin's version of Kolmogorov complexity, Kt, and its decisional variant, MKtP. The question whether MKtP can be computed in polynomial time is particularly interesting because it is not subject to known technical barriers such as algebrization or natural proofs that would explain the lack of a proof for MKtP ∉ P. We take a major step towards proving MKtP ∉ P by developing a novel yet simple diagonalization technique to show unconditionally that MKtP ∉ DTIME[O(n)], i.e., no deterministic algorithm can solve MKtP on every instance. This allows us to affirm a conjecture by Ren and Santhanam [STACS22] about a non-halting variant of Kt complexity. Additionally, we give conditional lower bounds for MKtP that tolerate either more runtime or one-sided error. If the underlying computational model has a linear-time universal simulation, e.g. random-access machines, then we obtain a quadratic lower bound, i.e., MKtP ∉ DTIME[O(n^2)].",
+        "url": "https://ia.cr/2024/687",
+        "date": "2024/10/08",
+        "time": "11:00",
+        "room": "E69"
+    }
+]

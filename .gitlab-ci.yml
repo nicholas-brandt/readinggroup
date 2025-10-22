@@ -1,0 +1,55 @@
+image: denoland/deno:alpine
+
+before_script:
+  - echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+  - apk update
+  - apk add swaks@testing bash perl-net-dns python3 py3-pip
+  - ip -4 addr show eth0 | grep inet | awk '{print $2}' | cut -d/ -f1 | xargs nslookup | grep 'name =' | awk '{print $4}' > fqdn.txt # get fully-qualified hostname for swaks
+
+auto-notify:
+  stage: deploy
+  rules:
+    - if: ($CI_PIPELINE_SOURCE == "schedule" && $job_name == "notify")
+  script:
+    - deno --allow-read --allow-run notify.js 2>&1 | tee run.log
+  artifacts:
+    paths:
+      - run.log
+
+notify-next:
+  stage: deploy
+  rules:
+    - if: ($CI_PIPELINE_SOURCE == "web" && $job_name == "notify-next")
+  script:
+    - deno --allow-read --allow-run notify-next.js 2>&1 | tee run.log
+  artifacts:
+    paths:
+      - run.log
+
+auto-remind:
+  stage: deploy
+  rules:
+    - if: ($CI_PIPELINE_SOURCE == "schedule" && $job_name == "remind")
+  script:
+    - deno --allow-read --allow-run remind.js 2>&1 | tee run.log
+  artifacts:
+    paths:
+      - run.log
+
+validate:
+  stage: test
+  rules:
+    - if: ($CI_PIPELINE_SOURCE == "push")
+  script:
+    - python -m json.tool talks.json > /dev/null
+    - deno lint
+
+debug-notify-next:
+  stage: test
+  rules:
+    - if: ($CI_PIPELINE_SOURCE == "web" && $job_name == "debug-notify-next")
+  script:
+    - deno --allow-read --allow-run debug-notify-next.js 2>&1 | tee run.log
+  artifacts:
+    paths:
+      - run.log
